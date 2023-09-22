@@ -7,7 +7,12 @@ import { GetEmail } from '@/components/getEmail';
 import { Startups } from '@/components/startups';
 import { useState } from 'react';
 
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+
 export default function Home() {
+
+  const supabase = createServerComponentClient({cookies});
   const [discover, setDiscover] = useState(true);
   const [getEmail, setGetEmail] = useState(true);
 
@@ -15,17 +20,19 @@ export default function Home() {
     setDiscover(value);
   }
 
-const getEmailShow = (value:boolean) => {
+  const getEmailShow = (value: boolean) => {
     setGetEmail(value);
-}
+  }
   return (
     <>
       <Nav />
       <TrendingTopics />
       {discover && <Discover discoverShow={discoverShow} />}
       <Trending />
-      {getEmail && <GetEmail getEmailShow={getEmailShow}/>}
+      {getEmail && <GetEmail getEmailShow={getEmailShow} />}
       <Startups />
+
+
     </>
   )
 }

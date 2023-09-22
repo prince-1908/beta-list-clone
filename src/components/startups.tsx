@@ -9,7 +9,6 @@ export const Startups = () => {
         description: string,
         imgSrc: string
     };
-
     const startupData: Array<dataType> = [
         {
             id: 0,
@@ -59,7 +58,7 @@ export const Startups = () => {
             <div className="text-3xl text-gray-400"><strong className="text-black">Today</strong> September 19th</div>
             <div className="mt-4 grid grid-cols-5 gap-3">
                     {startupData.map((item) => (
-                        <Card className="py-4 cursor-pointer">
+                        <Card key={item.id.toString()} className="py-4 cursor-pointer">
                             <Link href={'./startup/1'}>
                                 <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                                     <h4 className="font-bold text-large">{item.name}</h4>
