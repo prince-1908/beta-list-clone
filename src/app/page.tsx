@@ -7,32 +7,33 @@ import { GetEmail } from '@/components/getEmail';
 import { Startups } from '@/components/startups';
 import { useState } from 'react';
 
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 
 export default function Home() {
 
-  const supabase = createServerComponentClient({cookies});
-  const [discover, setDiscover] = useState(true);
-  const [getEmail, setGetEmail] = useState(true);
+	require('dotenv').config();
+	const databaseUrl = process.env.DATABASE_URL;
+	console.log(databaseUrl);
 
-  const discoverShow = (value: boolean) => {
-    setDiscover(value);
-  }
+	const [discover, setDiscover] = useState(true);
+	const [getEmail, setGetEmail] = useState(true);
 
-  const getEmailShow = (value: boolean) => {
-    setGetEmail(value);
-  }
-  return (
-    <>
-      <Nav />
-      <TrendingTopics />
-      {discover && <Discover discoverShow={discoverShow} />}
-      <Trending />
-      {getEmail && <GetEmail getEmailShow={getEmailShow} />}
-      <Startups />
+	const discoverShow = (value: boolean) => {
+		setDiscover(value);
+	}
+
+	const getEmailShow = (value: boolean) => {
+		setGetEmail(value);
+	}
+	return (
+		<>
+			<Nav />
+			<TrendingTopics />
+			{discover && <Discover discoverShow={discoverShow} />}
+			<Trending />
+			{getEmail && <GetEmail getEmailShow={getEmailShow} />}
+			<Startups />
 
 
-    </>
-  )
+		</>
+	)
 }
