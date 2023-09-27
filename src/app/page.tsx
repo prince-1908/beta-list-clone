@@ -1,39 +1,23 @@
-'use client'
-import { Nav } from '@/components/nav';
-import { TrendingTopics } from '@/components/trendingTopics';
-import { Trending } from '@/components/trending';
-import { Discover } from '@/components/discover';
-import { GetEmail } from '@/components/getEmail';
-import { Startups } from '@/components/startups';
-import { useState } from 'react';
+import Wrapper from '@/components/wrapper';
+import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient();
 
-export default function Home() {
+const fetchStartups = async () => {
+	const startups = await prisma.startups.findMany();
+	return startups;
+}
 
-	require('dotenv').config();
-	const databaseUrl = process.env.DATABASE_URL;
-	console.log(databaseUrl);
+export default async function Home() {
 
-	const [discover, setDiscover] = useState(true);
-	const [getEmail, setGetEmail] = useState(true);
+	const startups = await fetchStartups();
 
-	const discoverShow = (value: boolean) => {
-		setDiscover(value);
-	}
+	// require('dotenv').config();
+	// const databaseUrl = process.env.DATABASE_URL;
 
-	const getEmailShow = (value: boolean) => {
-		setGetEmail(value);
-	}
 	return (
 		<>
-			<Nav />
-			<TrendingTopics />
-			{discover && <Discover discoverShow={discoverShow} />}
-			<Trending />
-			{getEmail && <GetEmail getEmailShow={getEmailShow} />}
-			<Startups />
-
-
+			<Wrapper startups={startups}/>
 		</>
 	)
 }
