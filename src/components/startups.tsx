@@ -8,50 +8,6 @@ export const Startups = (props:any) => {
         console.log(id.startup_name);
     });
 
-    // const startupData: Array<dataType> = [
-    //     {
-    //         id: 0,
-    //         name: "prince",
-    //         description: "lorem ipsum dolor sit amet",
-    //         imgSrc: "https://picsum.photos/id/123/200/300"
-    //     },
-    //     {
-    //         id: 1,
-    //         name: "Prince",
-    //         description: "lorem ipsum dolor sit amet",
-    //         imgSrc: "https://picsum.photos/id/456/200/300"
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Prince Singh Chouhan",
-    //         description: "lorem ipsum dolor sit amet",
-    //         imgSrc: "https://picsum.photos/id/789/200/300"
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "Prince Singh Chouhan 1",
-    //         description: "lorem ipsum dolor sit amet",
-    //         imgSrc: "https://picsum.photos/id/101/200/300"
-    //     },
-    //     {
-    //         id: 4,
-    //         name: "Prince Singh Chouhan 1",
-    //         description: "lorem ipsum dolor sit amet",
-    //         imgSrc: "https://picsum.photos/id/112/200/300"
-    //     },
-    //     {
-    //         id: 5,
-    //         name: "Prince Singh Chouhan 1",
-    //         description: "lorem ipsum dolor sit amet",
-    //         imgSrc: "https://picsum.photos/id/131/200/300"
-    //     },
-    //     {
-    //         id: 6,
-    //         name: "Prince Singh Chouhan 1",
-    //         description: "lorem ipsum dolor sit amet",
-    //         imgSrc: "https://picsum.photos/id/415/200/300"
-    //     },
-    // ];
     return (
         <div className="p-8 mt-4">
             <div className="text-3xl text-gray-400"><strong className="text-black">Today</strong> September 19th</div>
