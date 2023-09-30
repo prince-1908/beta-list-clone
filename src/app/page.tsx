@@ -11,13 +11,9 @@ const fetchStartups = async () => {
 export default async function Home() {
 
 	const startups = await fetchStartups();
-
-	// require('dotenv').config();
-	// const databaseUrl = process.env.DATABASE_URL;
-
 	return (
 		<>
-			<Wrapper startups={startups}/>
+			<Wrapper/>
 		</>
 	)
 }

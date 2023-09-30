@@ -7,10 +7,7 @@ import { GetEmail } from '@/components/getEmail';
 import { Startups } from '@/components/startups';
 import { useState } from 'react';
 
-export default function Wrapper(props:any) {
-
-	// require('dotenv').config();
-	// const databaseUrl = process.env.DATABASE_URL;
+export default function Wrapper() {
 
 	const [discover, setDiscover] = useState(true);
 	const [getEmail, setGetEmail] = useState(true);
@@ -29,9 +26,7 @@ export default function Wrapper(props:any) {
 			{discover && <Discover discoverShow={discoverShow} />}
 			<Trending />
 			{getEmail && <GetEmail getEmailShow={getEmailShow} />}
-			<Startups startups={props.startups}/>
-
-
+			<Startups/>
 		</>
 	)
 }
