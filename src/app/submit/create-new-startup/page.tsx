@@ -28,16 +28,16 @@ export default function newStartup() {
                     imageData.append("upload_preset", "beta-list-clone");
                     imageData.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
         
-                    try {
-                        const response = await fetch(`https://api.cloudinary.com/v1_1/dhvl1gnlv/image/upload`, {
-                            method: "POST",
-                            body: imageData
-                        });
-                        const data = await response.json();
+                    fetch("https://api.cloudinary.com/v1_1/dhvl1gnlv/image/upload", {
+                        method: "POST",
+                        body: imageData
+                    }).then((response) => {
+                        return response.json();
+                    }).then((data) => {
                         imagesArray.push(data.url);
-                    } catch (err) {
+                    }).catch((err) => {
                         console.log(err);
-                    }
+                    });
                 }
             }
         }
@@ -73,7 +73,7 @@ export default function newStartup() {
                 startupName: startupName,
                 startupDesc: startupDesc,
                 mainImageUrl: mainImageUrl,
-                // imagesArrayString: imagesArrayString,
+                imagesArray: imagesArray
             })
         }).then((response) => response.json())
             .then((data) => console.log(data));
