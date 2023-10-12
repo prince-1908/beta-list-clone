@@ -14,7 +14,7 @@ export const Nav = () => {
                 </NavbarBrand>
                 <NavbarContent className="hidden sm:flex gap-4" justify="center">
                     <NavbarItem className='hover:bg-gray-100 px-2 py-1 rounded-md' isActive>
-                        <Link href="./" aria-current="page">
+                        <Link href="/" aria-current="page">
                             Home
                         </Link>
                     </NavbarItem>
@@ -41,7 +41,7 @@ export const Nav = () => {
                 </NavbarContent>
                 {login ? <NavbarContent justify="end">
                     <NavbarItem className="hidden lg:flex">
-                        <Link href="./submit">Submit</Link>
+                        <Link href="/submit">Submit</Link>
                     </NavbarItem>
                     <NavbarItem>
                         <Button as={Link} color="primary" href="#" variant="flat">

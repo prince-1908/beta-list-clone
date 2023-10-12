@@ -16,6 +16,16 @@ model startups {
     startup_name        String
     startup_description String
     main_image          String
+    images              images[]
     created_at          DateTime @default(now())
     updated_at          DateTime @updatedAt
+}
+
+model images {
+    id          Int      @id @default(autoincrement())
+    image       String
+    startups_id Int
+    startups    startups @relation(fields: [startups_id], references: [id])
+    created_at  DateTime @default(now())
+    update_at   DateTime @updatedAt
 }

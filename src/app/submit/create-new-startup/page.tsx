@@ -1,26 +1,80 @@
 'use client'
 import { Nav } from "@/components/nav"
-import { Button } from "@nextui-org/react";
-import Link from "next/link";
+import { Button, image } from "@nextui-org/react";
+import { calcLength } from "framer-motion";
 import { useState } from "react";
 
+
 export default function newStartup() {
+
     const [startupName, setStartupName] = useState('');
     const [startupDesc, setStartupDesc] = useState('');
-    const [mainImage, setMainImage] = useState('');
+    const [mainImage, setMainImage] = useState<Blob>();
+    const [imageGallery, setImageGallery] = useState<FileList>();
+
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        fetch('/api/startup', {
+        let mainImageUrl;
+
+        let imagesArray:string[] = [];
+
+        async function uploadImages() {
+            if (imageGallery) {
+                for (const item of Object.values(imageGallery)) {
+                    const imageData = new FormData();
+                    imageData.append("file", item);
+                    imageData.append("upload_preset", "beta-list-clone");
+                    imageData.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
+        
+                    try {
+                        const response = await fetch(`https://api.cloudinary.com/v1_1/dhvl1gnlv/image/upload`, {
+                            method: "POST",
+                            body: imageData
+                        });
+                        const data = await response.json();
+                        imagesArray.push(data.url);
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+            }
+        }
+        await uploadImages();
+
+        const imagesArrayString = imagesArray.join(',');
+        console.log(imagesArray, imagesArrayString);
+
+        if (mainImage) {
+            const mainImageData = new FormData();
+            mainImageData.append("file", mainImage);
+            mainImageData.append("upload_preset", "beta-list-clone");
+            mainImageData.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
+
+            await fetch(`https://api.cloudinary.com/v1_1/dhvl1gnlv/image/upload`, {
+                method: "POST",
+                body: mainImageData
+            }).then((response) => {
+                return response.json()
+            }).then((data) => {
+                mainImageUrl = data.url
+            }).catch((err) => {
+                console.log("Error for main image upload = " + err);
+            });
+        }
+
+        await fetch('/api/startup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 startupName: startupName,
-                startupDesc: startupDesc
-            }),
+                startupDesc: startupDesc,
+                mainImageUrl: mainImageUrl,
+                // imagesArrayString: imagesArrayString,
+            })
         }).then((response) => response.json())
             .then((data) => console.log(data));
     }
@@ -52,6 +106,23 @@ export default function newStartup() {
 
                 <div className="w-1/2 mx-auto flex flex-col">
                     <label
+                        htmlFor="main_image"
+                        className=""
+                    >
+                        Add Main image
+                    </label>
+                    <input
+                        type="file"
+                        name="main_image"
+                        id="main_image"
+                        accept=".jpg, .jpeg, .png"
+                        onChange={(e) => { e.target.files && setMainImage(e.target.files[0]) }}
+                        className=""
+                    />
+                </div>
+
+                <div className="w-1/2 mx-auto flex flex-col">
+                    <label
                         htmlFor="image"
                         className=""
                     >
@@ -59,10 +130,11 @@ export default function newStartup() {
                     </label>
                     <input
                         type="file"
-                        name="main_image"
-                        id="main_image"
+                        name="image"
+                        id="image"
                         accept=".jpg, .jpeg, .png"
                         multiple
+                        onChange={(e) => { e.target.files ? setImageGallery(e.target.files) : null }}
                         className=""
                     />
                 </div>

@@ -1,16 +1,6 @@
 import Wrapper from '@/components/wrapper';
-import { PrismaClient } from '@prisma/client';
+export default function Home() {
 
-const prisma = new PrismaClient();
-
-const fetchStartups = async () => {
-	const startups = await prisma.startups.findMany();
-	return startups;
-}
-
-export default async function Home() {
-
-	const startups = await fetchStartups();
 	return (
 		<>
 			<Wrapper/>
