@@ -15,8 +15,8 @@ export const Startups = () => {
             }
         }).then((response) => {
             return response.json()
-        }).then((data) => {
-            setStartups(data);
+        }).then((dataObj) => {
+            setStartups(dataObj.data);
         }).catch((err) => {
             console.log(err);
         });
@@ -37,7 +37,7 @@ export const Startups = () => {
                                 <Image
                                     alt="Card background"
                                     className="object-cover rounded-xl"
-                                    src={item.main_image}
+                                    src={item.main_image.length ? item.main_image : 'loading.png'}
                                     width={270}
                                 />
                             </CardBody>

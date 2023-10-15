@@ -5,10 +5,10 @@ import ImageListItem from '@mui/material/ImageListItem';
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-
 export default function Startup() {
 
     const [pageData, setPageData] = useState<dbDataType>();
+    const [imageGallery, setImageGallery] = useState<String[]>([]);
     const pathName = usePathname();
     const pageId = Number(pathName.split("/")[2]);
 
@@ -22,6 +22,8 @@ export default function Startup() {
         updated_at: string
     }
 
+    let arr:any = [];
+
     useEffect(() => {
         fetch("/api/startupGet", {
             method: "GET",
@@ -30,18 +32,25 @@ export default function Startup() {
             },
         }).then((response) => {
             return response.json();
-        }).then((data) => {
-            data.map((item: dbDataType) => {
-                if (item.id === pageId) {
-                    setPageData(item);
+        }).then((item) => {
+            item.data.map((itemData: dbDataType) => {
+                if (itemData.id === pageId) {
+                    setPageData(itemData);
                 }
-            })
+            });
+            item.images.map((itemImages: any) => {
+                if (itemImages.startups_id === pageId && !arr.includes(itemImages.image)) {
+                    arr.push(itemImages.image);
+                }
+            });
+            setImageGallery(arr);
         }).catch((err) => {
             console.log(err);
         });
+        
     }, []);
 
-    const imageArray = pageData?.image_gallery.split(',');
+
 
     return (
         <>
@@ -55,19 +64,19 @@ export default function Startup() {
             </div>
 
             {/* image gallery */}
-            <div className="grid place-items-center p-4">
-                {/* <ImageList sx={{ width: 500, height: 450 }} cols={3} className="w-1/2 h-auto">
-                    {imageArray?.map((item) => (
-                        <ImageListItem key={item}>
+            <div className="grid place-items-center p-4 w-full border border-black">
+                <ImageList cols={4} className="w-full border-2 border-black h-auto">
+                    {imageGallery.map((item) => (
+                        <ImageListItem key={crypto.randomUUID()}>
                             <img
                                 srcSet={`${item}`}
                                 src={`${item}`}
-                                alt={item}
+                                alt={pageData?.startup_name}
                                 loading="lazy"
                             />
                         </ImageListItem>
                     ))}
-                </ImageList> */}
+                </ImageList>
             </div>
 
             {/* description */}
