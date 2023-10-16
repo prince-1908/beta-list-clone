@@ -3,6 +3,7 @@ import { Nav } from "@/components/nav"
 import { Button, image } from "@nextui-org/react";
 import { calcLength } from "framer-motion";
 import { useState } from "react";
+import Link from "next/link";
 
 
 export default function newStartup() {
@@ -12,13 +13,18 @@ export default function newStartup() {
     const [mainImage, setMainImage] = useState<Blob>();
     const [imageGallery, setImageGallery] = useState<FileList>();
 
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [goToHome, setGoToHome] = useState(false);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
+        setIsLoading(true);
+
         let mainImageUrl;
 
-        let imagesArray:string[] = [];
+        let imagesArray: string[] = [];
 
         async function uploadImages() {
             if (imageGallery) {
@@ -27,7 +33,7 @@ export default function newStartup() {
                     imageData.append("file", item);
                     imageData.append("upload_preset", "beta-list-clone");
                     imageData.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
-        
+
                     fetch("https://api.cloudinary.com/v1_1/dhvl1gnlv/image/upload", {
                         method: "POST",
                         body: imageData
@@ -42,9 +48,6 @@ export default function newStartup() {
             }
         }
         await uploadImages();
-
-        const imagesArrayString = imagesArray.join(',');
-        console.log(imagesArray, imagesArrayString);
 
         if (mainImage) {
             const mainImageData = new FormData();
@@ -75,8 +78,15 @@ export default function newStartup() {
                 mainImageUrl: mainImageUrl,
                 imagesArray: imagesArray
             })
-        }).then((response) => response.json())
-            .then((data) => console.log(data));
+        }).then((response) => {
+            return response.json()
+        }).then((data) => {
+            console.log(data)
+            setIsLoading(false);
+            setGoToHome(true);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
     return (
         <>
@@ -118,6 +128,7 @@ export default function newStartup() {
                         accept=".jpg, .jpeg, .png"
                         onChange={(e) => { e.target.files && setMainImage(e.target.files[0]) }}
                         className=""
+                        required
                     />
                 </div>
 
@@ -136,16 +147,35 @@ export default function newStartup() {
                         multiple
                         onChange={(e) => { e.target.files ? setImageGallery(e.target.files) : null }}
                         className=""
+                        required
                     />
                 </div>
 
-                <Button
-                    type="submit"
-                    className="w-1/4 mx-auto bg-[#00cbd2] rounded-[4px] text-base text-white p-7 font-semibold"
-                >
-                    SUBMIT A NEW STARTUP
-                </Button>
-            </form>
+                {isLoading ?
+                    <Button
+                        className="w-1/4 mx-auto bg-[#00cbd2] rounded-[4px] text-base text-white p-7 font-semibold"
+                        isLoading
+                    >
+                        Please Wait...
+                    </Button> :
+
+                    goToHome ?
+                        <Link href="/" className="w-1/4 mx-auto">
+                            <Button
+                                className="bg-[#54da3d] w-full p-7 rounded-[4px] text-base text-white font-semibold"
+                                onClick={() => {setGoToHome(false)}}
+                            >
+                                Go To Home
+                            </Button>
+                        </Link> :
+                        <Button
+                            type="submit"
+                            className="w-1/4 mx-auto bg-[#00cbd2] rounded-[4px] text-base text-white p-7 font-semibold"
+                        >
+                            SUBMIT A NEW STARTUP
+                        </Button>
+                }
+            </form >
         </>
     );
 }

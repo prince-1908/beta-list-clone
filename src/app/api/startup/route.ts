@@ -5,17 +5,21 @@ import { NextRequest } from "next/server";
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
+    interface imageObject{
+        image: string;
+    }
 
     const data = await req.json();
 
-    const arr:any[] =  [];
+    const arr:imageObject[] =  [];
 
-    await data.imagesArray.map((img:String) => {
+    await data.imagesArray.map((img:string) => {
+        console.log(img);
         arr.push({
             image: img
         });
-        console.log(arr);
     });
+    console.log(arr);
 
     let variable;
     variable = await prisma.startups.create({

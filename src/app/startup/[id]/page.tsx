@@ -4,6 +4,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Startup() {
 
@@ -64,15 +65,16 @@ export default function Startup() {
             </div>
 
             {/* image gallery */}
-            <div className="grid place-items-center p-4 w-full border border-black">
-                <ImageList cols={4} className="w-full border-2 border-black h-auto">
+            <div className="p-4 w-full h-auto flex justify-center">
+                <ImageList cols={4} className="w-[90%]">
                     {imageGallery.map((item) => (
-                        <ImageListItem key={crypto.randomUUID()}>
-                            <img
-                                srcSet={`${item}`}
+                        <ImageListItem key={crypto.randomUUID()} className="w-[400px]">
+                            <Image
+                                width={400}
+                                height={400}
                                 src={`${item}`}
-                                alt={pageData?.startup_name}
-                                loading="lazy"
+                                alt=""
+                                className="rounded-lg shadow-2xl border"
                             />
                         </ImageListItem>
                     ))}

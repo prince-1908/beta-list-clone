@@ -24,8 +24,8 @@ export const Startups = () => {
 
     return (
         <div className="p-8 mt-4">
-            <div className="text-3xl text-gray-400"><strong className="text-black">Today</strong> September 19th</div>
-            <div className="mt-4 grid grid-cols-5 gap-3">
+            <div className="text-3xl text-gray-400"><strong className="text-black">New</strong> Startups</div>
+            <div className="mt-4 flex flex-wrap-reverse justify-around content-around gap-4">
                 {startups.map((item: any) => (
                     <Card key={item.id.toString()} className="py-4 cursor-pointer">
                         <Link href={`./startup/${item.id}`}>
