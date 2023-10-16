@@ -10,7 +10,7 @@ export const Discover = (props:any) => {
                 <button onClick={handleCut} className="absolute right-3 top-3 bg-gray-500 hover:bg-gray-400 rounded-full p-1 transition-all">
                     <X />
                 </button>
-                <div className="text-6xl font-extrabold text-white w-1/2">Discover tomorrow's Startup, today.</div>
+                <div className="text-6xl font-extrabold text-white w-1/2">Discover tomorrow&apos;s Startup, today.</div>
                 <div className="w-1/2">
                     <p className="text-white text-3xl">BetaList helps you find early-stage startups before they make it big.</p>
                     <div className="mt-2 text-2xl flex gap-4">

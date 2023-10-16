@@ -6,7 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 
-export default function newStartup() {
+export default function NewStartup() {
 
     const [startupName, setStartupName] = useState('');
     const [startupDesc, setStartupDesc] = useState('');
