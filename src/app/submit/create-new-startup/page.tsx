@@ -34,7 +34,7 @@ export default function newStartup() {
                     imageData.append("upload_preset", "beta-list-clone");
                     imageData.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
 
-                    fetch("https://api.cloudinary.com/v1_1/dhvl1gnlv/image/upload", {
+                    fetch(`https://api.cloudinary.com/v1_1/dhvl1gnlv/image/upload`, {
                         method: "POST",
                         body: imageData
                     }).then((response) => {

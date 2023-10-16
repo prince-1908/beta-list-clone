@@ -31,7 +31,6 @@ export const Startups = () => {
                         <Link href={`./startup/${item.id}`}>
                             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                                 <h4 className="font-bold text-large">{item.startup_name}</h4>
-                                <p className="text-tiny uppercase font-bold">{item.startup_name}</p>
                             </CardHeader>
                             <CardBody className="overflow-visible py-2">
                                 <Image
