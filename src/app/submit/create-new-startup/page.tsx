@@ -78,15 +78,14 @@ export default function NewStartup() {
                 mainImageUrl: mainImageUrl,
                 imagesArray: imagesArray
             })
-        }).then((response) => {
-            return response.json()
-        }).then((data) => {
-            console.log(data)
-            setIsLoading(false);
-            setGoToHome(true);
-        }).catch((err) => {
-            console.log(err);
-        });
+        }).then(response => response.json())
+            .then((data) => {
+                console.log(data)
+                setIsLoading(false);
+                setGoToHome(true);
+            }).catch((err) => {
+                console.log(err);
+            });
     }
     return (
         <>
@@ -163,7 +162,7 @@ export default function NewStartup() {
                         <Link href="/" className="w-1/4 mx-auto">
                             <Button
                                 className="bg-[#54da3d] w-full p-7 rounded-[4px] text-base text-white font-semibold"
-                                onClick={() => {setGoToHome(false)}}
+                                onClick={() => { setGoToHome(false) }}
                             >
                                 Go To Home
                             </Button>
