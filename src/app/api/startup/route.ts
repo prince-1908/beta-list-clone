@@ -6,9 +6,6 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
 
-    await prisma.startups.deleteMany();
-    await prisma.images.deleteMany();
-
     interface imageObject{
         image: string;
     }
