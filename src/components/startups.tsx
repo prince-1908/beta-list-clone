@@ -2,10 +2,12 @@
 import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { SkeletonComp } from "@/components/skeleton";
 
-export const Startups = () => {
+export const Startups = (props:any) => {
 
     const [startups, setStartups] = useState<[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         fetch('/api/startupGet', {
@@ -17,6 +19,7 @@ export const Startups = () => {
             return response.json()
         }).then((dataObj) => {
             setStartups(dataObj.data);
+            setLoading(false);
         }).catch((err) => {
             console.log(err);
         });
@@ -25,6 +28,8 @@ export const Startups = () => {
     return (
         <div className="p-8 mt-4">
             <div className="text-3xl text-gray-400"><strong className="text-black">New</strong> Startups</div>
+
+            {loading ? <SkeletonComp/> :
             <div className="mt-4 flex flex-wrap-reverse justify-around content-around gap-4">
                 {startups.map((item: any) => (
                     <Card key={item.id.toString()} className="py-4 cursor-pointer">
@@ -43,7 +48,7 @@ export const Startups = () => {
                         </Link>
                     </Card>
                 ))}
-            </div>
+            </div>}
         </div>
     )
 }
