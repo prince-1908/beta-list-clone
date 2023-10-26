@@ -31,7 +31,8 @@ export async function POST(req: NextRequest) {
             images: {
                 create: arr
             }
-        }
+        },
+        include: {images: true}
     });
 
     return NextResponse.json({ message: variable }, { status: 200 });

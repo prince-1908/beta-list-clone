@@ -5,25 +5,37 @@ import ImageListItem from '@mui/material/ImageListItem';
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { AnyARecord } from "dns";
+import { Prisma } from "@prisma/client";
 
 export default function Startup() {
 
-    const [pageData, setPageData] = useState<dbDataType>();
+    const [pageData, setPageData] = useState<dbDataType | null>();
     const [imageGallery, setImageGallery] = useState<String[]>([]);
     const pathName = usePathname();
     const pageId = Number(pathName.split("/")[2]);
+    const imageUrl = [];
 
-    interface dbDataType {
-        id: number,
-        startup_name: string,
-        startup_description: string,
-        main_image: string,
-        image_gallery: string,
-        created_at: string,
-        updated_at: string
-    }
+    // interface imagesDataType {
+    //     image: string,
+    // }
 
-    let arr:any = [];
+    // interface dbDataType {
+    //     id: number,
+    //     startup_name: string,
+    //     startup_description: string,
+    //     main_image: string,
+    //     images: string[],
+    //     created_at: string,
+    //     updated_at: string
+    // }
+
+    type dbDataType = Prisma.startupsGetPayload<{
+        include: {
+            images: true,
+        }
+    }>
+    let arr: any = [];
 
     useEffect(() => {
         fetch("/api/startupGet", {
@@ -33,24 +45,23 @@ export default function Startup() {
             },
         }).then((response) => {
             return response.json();
-        }).then((item) => {
-            item.data.map((itemData: dbDataType) => {
-                if (itemData.id === pageId) {
-                    setPageData(itemData);
+        }).then((allData) => {
+            allData.map((data: any) => {
+                if (data.id === pageId) {
+                    setPageData(data);
                 }
             });
-            item.images.map((itemImages: any) => {
-                if (itemImages.startups_id === pageId && !arr.includes(itemImages.image)) {
-                    arr.push(itemImages.image);
-                }
-            });
-            setImageGallery(arr);
         }).catch((err) => {
             console.log(err);
         });
-        
+
     }, []);
 
+    if (pageData) {
+        pageData.images.map((item) => {
+            console.log(item);
+        })
+    }
 
 
     return (
@@ -65,20 +76,18 @@ export default function Startup() {
             </div>
 
             {/* image gallery */}
-            <div className="p-4 w-full h-auto flex justify-center">
-                <ImageList cols={4} className="w-[90%]">
-                    {imageGallery.map((item) => (
-                        <ImageListItem key={crypto.randomUUID()} className="w-[400px]">
-                            <Image
-                                width={400}
-                                height={400}
-                                src={`${item}`}
-                                alt=""
-                                className="rounded-lg shadow-2xl border"
-                            />
-                        </ImageListItem>
-                    ))}
-                </ImageList>
+            <div className="p-4 w-full h-auto flex flex-wrap max-h-[50vh] overflow-scroll justify-center gap-4">
+                {pageData ? pageData.images.map((item) => {
+                    return (
+                        <Image
+                            src={item.image}
+                            alt=""
+                            height={250}
+                            width={250}
+                        />
+                    )
+                }) : null}
+
             </div>
 
             {/* description */}

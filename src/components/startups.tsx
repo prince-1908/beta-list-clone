@@ -3,11 +3,15 @@ import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SkeletonComp } from "@/components/skeleton";
+// import UseStartupSearch from "@/app/useStartupSearch";
 
 export const Startups = (props:any) => {
 
     const [startups, setStartups] = useState<[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [pageNumber, setPageNumber] = useState<number>(1);
+
+    // UseStartupSearch(1);
 
     useEffect(() => {
         fetch('/api/startupGet', {
@@ -17,8 +21,8 @@ export const Startups = (props:any) => {
             }
         }).then((response) => {
             return response.json()
-        }).then((dataObj) => {
-            setStartups(dataObj.data);
+        }).then((allData) => {
+            setStartups(allData);
             setLoading(false);
         }).catch((err) => {
             console.log(err);

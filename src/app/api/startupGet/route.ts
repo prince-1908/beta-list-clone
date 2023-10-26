@@ -3,15 +3,22 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 export const dynamic = 'force-dynamic';
-export async function GET(){
+export async function GET() {
 
-    const getData = await prisma.startups.findMany();
-    const getImages = await prisma.images.findMany();
+    const getData = await prisma.startups.findMany({
+        include: {
+            images: true,
+        }
+    })
+    // const getData = await prisma.startups.findMany();
+    // const getImages = await prisma.images.findMany();
 
-    const dataObj = {
-        data : getData,
-        images : getImages
-    }
+    // const dataObj = {
+    //     data: getData,
+    //     images: getImages
+    // }
 
-    return NextResponse.json(dataObj, {status: 200});
+    console.log(getData);
+
+    return NextResponse.json(getData, { status: 200 });
 }
