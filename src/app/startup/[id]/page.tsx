@@ -80,6 +80,7 @@ export default function Startup() {
                 {pageData ? pageData.images.map((item) => {
                     return (
                         <Image
+                            key={crypto.randomUUID()}
                             src={item.image}
                             alt=""
                             height={250}

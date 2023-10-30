@@ -19,18 +19,20 @@ export const Startups = (props: any) => {
     }, [inView]);
 
     useEffect(() => {
-        setTimeout(
-            () => {
-                fetch(`/api/startupGet?page=${pageParams}`).then((response) => {
+        setTimeout(() => {
+                fetch(`/api/startupGet?page=${pageParams}`)
+                .then((response) => {
                     return response.json();
-                }).then((newData) => {
-                    newData.map((item: any) => {
-                        setStartups(prev => [...prev, item]);
-                    });
-                    if (newData.length === 0) {
-                        setScrollLoader(false);
-                    }
-                }).catch((err) => {
+                })
+                .then((newData) => {
+                    newData.forEach((item: any) => {
+                    setStartups((prev) => [...prev, item]);
+                });
+                if (newData.length === 0) {
+                    setScrollLoader(false);
+                }
+                })
+                .catch((err) => {
                     console.log(err);
                 });
             }, 1000)
