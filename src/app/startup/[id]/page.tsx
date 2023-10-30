@@ -16,20 +16,6 @@ export default function Startup() {
     const pageId = Number(pathName.split("/")[2]);
     const imageUrl = [];
 
-    // interface imagesDataType {
-    //     image: string,
-    // }
-
-    // interface dbDataType {
-    //     id: number,
-    //     startup_name: string,
-    //     startup_description: string,
-    //     main_image: string,
-    //     images: string[],
-    //     created_at: string,
-    //     updated_at: string
-    // }
-
     type dbDataType = Prisma.startupsGetPayload<{
         include: {
             images: true,
@@ -38,7 +24,7 @@ export default function Startup() {
     let arr: any = [];
 
     useEffect(() => {
-        fetch("/api/startupGet", {
+        fetch("/api/getStartupData", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -47,6 +33,7 @@ export default function Startup() {
             return response.json();
         }).then((allData) => {
             allData.map((data: any) => {
+                console.log(allData)
                 if (data.id === pageId) {
                     setPageData(data);
                 }
@@ -85,6 +72,7 @@ export default function Startup() {
                             alt=""
                             height={250}
                             width={250}
+                            className="h-auto w-auto"
                         />
                     )
                 }) : null}

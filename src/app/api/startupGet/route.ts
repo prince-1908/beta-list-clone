@@ -7,9 +7,7 @@ const prisma = new PrismaClient();
 export const dynamic = 'force-dynamic';
 export async function GET(req:NextRequest) {
 
-    // const limit = 5;
     const page = req.nextUrl.searchParams.get('page');
-    // const cursorObj = cursor == "" ? undefined : { id: parseInt(cursor as string) };
 
     // const getData = await prisma.startups.findMany({
     //     include: {
