@@ -33,7 +33,6 @@ export default function Startup() {
             return response.json();
         }).then((allData) => {
             allData.map((data: any) => {
-                console.log(allData)
                 if (data.id === pageId) {
                     setPageData(data);
                 }
@@ -44,11 +43,11 @@ export default function Startup() {
 
     }, []);
 
-    if (pageData) {
-        pageData.images.map((item) => {
-            console.log(item);
-        })
-    }
+    // if (pageData) {
+    //     pageData.images.map((item) => {
+    //         console.log(item.image);
+    //     })
+    // }
 
 
     return (
@@ -63,7 +62,7 @@ export default function Startup() {
             </div>
 
             {/* image gallery */}
-            <div className="p-4 w-full h-auto flex flex-wrap max-h-[50vh] overflow-scroll justify-center gap-4">
+            <div className="p-4 m-auto w-[50vw] h-auto flex flex-wrap max-h-[50vh] overflow-x-scroll justify-center gap-4">
                 {pageData ? pageData.images.map((item) => {
                     return (
                         <Image
